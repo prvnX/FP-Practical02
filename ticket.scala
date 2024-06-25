@@ -1,30 +1,28 @@
 object ticket{
-    def calculateCost(ticketPrice:Double):Double={ (ticketPrice) match{
-        case 15.0 => 3.0*120+500.0
-        case 10.0 => 3.0*140+500.0
-        case 20.0 => 3.0*100+500.0
+    def attendees(price:Int):Int={
+        120+((15-price)/5)*20;
+        }
+
+    def revenue(price:Int):Int ={
+        attendees(price)* price;
     }
-}
-    def calculateTicketIncome(ticketPrice:Double):Double={ (ticketPrice) match{
-        case 15.0 => 15.0*120
-        case 10.0 => 10.0*140
-        case 20.0 => 20.0*100
+
+    def cost(price:Int):Int={
+        500+3*attendees(price);
     }
-}
-    def calculateProfit(ticketPrice:Double):Double={ (ticketPrice) match{
-        case 15.0 => calculateTicketIncome(15.0)-calculateCost(15.0)
-        case 10.0 => calculateTicketIncome(10.0)-calculateCost(10.0)
-        case 20.0 => calculateTicketIncome(20.0)-calculateCost(20.0)
+
+    def profit(price:Int):Int ={
+        revenue(price)- cost(price)
     }
-}
-    def findBestTicketPrice():Double={ (calculateProfit(15.0)>calculateProfit(10.0) && calculateProfit(15.0)>calculateProfit(20.0)) match{
-        case true => 15.0
-        case x if(x==false && calculateProfit(10.0)>calculateProfit(20.0)) => 10.0
-        case _ => 20.0
+   
+    def findBestTicketPrice(price1:Int,price2:Int,price3:Int):Int={ (profit(price1)>profit(price2) && profit(price1)>profit(price3)) match{
+        case true => price1
+        case x if(x==false && profit(price2)>profit(price3)) => price2
+        case _ => price3
     }
 }
     def main(args:Array[String]):Unit={
-        println("The most profitable ticket price is : "+findBestTicketPrice())
+         println("The most profitable ticket price is : "+findBestTicketPrice(10,15,20)+"Profit:")
     }
 
 }
